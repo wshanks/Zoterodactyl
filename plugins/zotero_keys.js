@@ -16,7 +16,7 @@ var INFO =
 
 // Show/focus Zotero.  
 // argument can be used to set focus (1=search, 2=collection pane, 3=items tree)
-group.mappings.add([modes.NORMAL], ["zo"], "Show or focus Zotero",
+group.mappings.add([modes.NORMAL], ["zf"], "Show or focus Zotero",
 	function(args) {
 		ZoteroOverlay.toggleDisplay(true);
 		

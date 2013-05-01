@@ -4,7 +4,7 @@ Zoterodactyl is a set of Pentadactyl plugins that provide key mappings for [Zote
 
 zotero_keys.js
 --------------
-* __<count>zo:__ Open the Zotero pane (if it is closed) and focus it.  If `<count>` is not given, focus the items pane.  For `<count>==1`, focus the search box.  For `<count>==2`, focus the collection pane.
+* __<count>zo:__ Open the Zotero pane (if it is closed) and focus it.  If `<count>` is not given, focus the items pane.  For `<count>==1`, focus the search box.  For `<count>==2`, focus the collection pane (Mnemonic: "focus").
 
 * __zc:__ Hide the Zotero pane.
 
@@ -37,15 +37,15 @@ zutilo_keys.js
 
 * __zM:__ Modify paths of all attachments of selected Zotero items.
 
-* __zr:__ Relate selected Zotero items.
+* __zR:__ Relate selected Zotero items.
 
-* __zi:__ Focus the info pane of selected Zotero item and then focus its first text box.
+* __ze:__ Focus the info pane of selected Zotero item and then focus its first text box (Mnemonic: "edit").
 
 * __zn:__ Add a new note to the current Zotero item.
 
 * __zt:__ Focus the tags pane of selected Zotero item and then focus a new tag entry box.
 
-* __zR:__ Open the relate items dialog window for the currently selected Zotero item.
+* __z-R:__ Open the relate items dialog window for the currently selected Zotero item.
 
 * __za:__ Attach the current page to the currently selected Zotero item.
 
@@ -61,3 +61,5 @@ zutilo_keys.js
 Notes
 -----
 Pentadactyl catches some keystrokes (e.g. `<Down>` and `<Up>`), preventing them from being passed to Zotero (e.g. to select the next or previous item in the case of `<Down>` and `<Up>`).  The Zoterodactyl plugins try to create workarounds for these keystrokes (e.g. `J` and `K` for `<Down>` and `<Up>`).  Other keystrokes (e.g. `<Return>` and `<Del>`) are passed to Zotero when it has focus (e.g. so typing `zo` to focus Zotero allows one to open the currently selected item by pressing `<Return>` and to delete it by pressing `<Del>`).
+
+Two of Zoterodactyl's key mappings conflict with default Pentadactyl key mappings (`zM` and `zR`).  Pentadactyl provides alternate default key mappings that can be used instead (`ZM` and `ZR`).

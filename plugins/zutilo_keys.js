@@ -40,12 +40,12 @@ group.mappings.add([modes.NORMAL], ["zM"], "Modify attachment paths",
 );
 
 // Relate Zotero items
-group.mappings.add([modes.NORMAL], ["zr"], "Relate Zotero items", 
+group.mappings.add([modes.NORMAL], ["zR"], "Relate Zotero items", 
 	function() {ZutiloChrome.zoteroOverlay.relateItems()}
 );
 
 // Edit item info
-group.mappings.add([modes.NORMAL], ["zi"], "Edit item info", 
+group.mappings.add([modes.NORMAL], ["ze"], "Edit item info", 
 	function() {ZutiloChrome.zoteroOverlay.editItemInfoGUI()}
 );
 
@@ -60,7 +60,7 @@ group.mappings.add([modes.NORMAL], ["zt"], "Add tag to item",
 );
 
 // Open relate items dialog
-group.mappings.add([modes.NORMAL], ["zR"], "Open relate items dialog", 
+group.mappings.add([modes.NORMAL], ["z-R"], "Open relate items dialog", 
 	function() {ZutiloChrome.zoteroOverlay.addRelatedGUI()}
 );
 
