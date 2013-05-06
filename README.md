@@ -4,7 +4,7 @@ Zoterodactyl is a set of Pentadactyl plugins that provide key mappings for [Zote
 
 zotero_keys.js
 --------------
-* __<count>zo:__ Open the Zotero pane (if it is closed) and focus it.  If `<count>` is not given, focus the items pane.  For `<count>==1`, focus the search box.  For `<count>==2`, focus the collection pane (Mnemonic: "focus").
+* __<count>zf:__ Open the Zotero pane (if it is closed) and focus it.  If `<count>` is not given, focus the items pane.  For `<count>==1`, focus the search box.  For `<count>==2`, focus the collection pane (Mnemonic: "focus").
 
 * __zc:__ Hide the Zotero pane.
 
