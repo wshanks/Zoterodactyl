@@ -1,9 +1,9 @@
 "use strict";
 var INFO =
-["plugin", { name: "zotero_keys",
+["plugin", { name: "zutilo_keys",
              version: "1.0.0",
              href: "https://github.com/willsALMANJ/Zoterodactyl",
-             summary: "JavaScript completion enhancements",
+             summary: "Key mappings for Zutilo",
              xmlns: "dactyl" },
     ["author", { href: "https://github.com/willsALMANJ" },
         "Will Shanks"],
@@ -12,7 +12,8 @@ var INFO =
     ["project", { name: "Pentadactyl", "min-version": "1.0" }],
     ["p", {},
         "This plugin implements a set of key mappings for working with the Zutilo ",
-        "plugin for Zotero with Pentadactyl without entering passthrough mode."]];
+        "plugin for Zotero with Pentadactyl without entering passthrough mode.  See ",
+        "the zutilo_keys site for the list of keymappings."]];
 
 // Copy ("yank") Zotero item tags
 group.mappings.add([modes.NORMAL], ["zy"], "Copy Zotero item tags", 

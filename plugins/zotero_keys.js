@@ -3,7 +3,7 @@ var INFO =
 ["plugin", { name: "zotero_keys",
              version: "1.0.0",
              href: "https://github.com/willsALMANJ/Zoterodactyl",
-             summary: "JavaScript completion enhancements",
+             summary: "Key mappings for Zotero",
              xmlns: "dactyl" },
     ["author", { href: "https://github.com/willsALMANJ" },
         "Will Shanks"],
@@ -11,8 +11,9 @@ var INFO =
         "Mozilla Public License 2.0"],
     ["project", { name: "Pentadactyl", "min-version": "1.0" }],
     ["p", {},
-        "This plugin implements a set of key mappings for working with",
-        "Zotero with Pentadactyl without entering passthrough mode."]];
+        "This plugin implements a set of key mappings for working with ",
+        "Zotero with Pentadactyl without entering passthrough mode.  See ",
+        "the zotero_keys site for the list of keymappings."]];
 
 // Show/focus Zotero.  
 // argument can be used to set focus (1=search, 2=collection pane, 3=items tree)
@@ -28,8 +29,21 @@ group.mappings.add([modes.NORMAL], ["zf"], "Show or focus Zotero",
 		}
 		
 		window.setTimeout(function() {
+			/* This is more concise and will work if the UI changes, but maybe it is 
+			safer to just focus the elements directly as done below?
 			for (var idx=0; idx<count-1; idx++) {
 				document.commandDispatcher.advanceFocus();
+			}
+			*/
+			switch (count) {
+				case 1:
+					// Leave focus on first element
+					break;
+				case 2:
+					document.getElementById('zotero-collections-tree').focus();
+					break;
+				default:
+					document.getElementById('zotero-items-tree').focus();
 			}
 		}, 200);
 	},

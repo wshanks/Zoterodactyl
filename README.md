@@ -64,6 +64,8 @@ Pentadactyl catches some keystrokes (e.g. `<Down>` and `<Up>`), preventing them 
 
 Two of Zoterodactyl's key mappings conflict with default Pentadactyl key mappings (`zM` and `zR`).  Pentadactyl provides alternate default key mappings that can be used instead (`ZM` and `ZR`).
 
+Keep in mind that in Firefox `<C-Space>` opens context menus.  So once you have used `zf` to focus Zotero and `J` and `K` to navigate items, you can used `<C-Space>` and the `<Up>` and `<Down>` keys to select other operations on items not given maps above (e.g. "Open in External Viewer" or "Show File").
+
 Install
 -------
 Install these plugins by copying them to the `~/.pentadactyl/plugins/` directory (or `%USERPROFILE%\pentadactyl\plugins` on Windows).  You have to create this directory if it does not exist. Any plugins in that directory will be loaded on start up. Plugins can also be loaded with the `:lpl` command.  If you modify the plugin and want to load it again, it may be necessary to use `:lpl!` to overwrite the previously loaded version.
