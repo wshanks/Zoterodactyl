@@ -1,7 +1,7 @@
 "use strict";
 var INFO =
 ["plugin", { name: "zotero_keys",
-             version: "1.0.0",
+             version: "1.0.1",
              href: "https://github.com/willsALMANJ/Zoterodactyl",
              summary: "Key mappings for Zotero",
              xmlns: "dactyl" },
@@ -35,15 +35,24 @@ group.mappings.add([modes.NORMAL], ["zf"], "Show or focus Zotero",
 				document.commandDispatcher.advanceFocus();
 			}
 			*/
+			let doc;
+			if (ZoteroOverlay.isTab) {
+				doc = window.content.document;
+			} else {
+				doc = document;
+			}
+			
 			switch (count) {
 				case 1:
-					// Leave focus on first element
+					// When Zotero is in a tab, this is not focused automatically 
+					// (it is for the browser pane).
+					doc.getElementById('zotero-tb-search').focus();
 					break;
 				case 2:
-					document.getElementById('zotero-collections-tree').focus();
+					doc.getElementById('zotero-collections-tree').focus();
 					break;
 				default:
-					document.getElementById('zotero-items-tree').focus();
+					doc.getElementById('zotero-items-tree').focus();
 			}
 		}, 200);
 	},
