@@ -1,7 +1,7 @@
 "use strict";
 var INFO =
 ["plugin", { name: "zotero_keys",
-             version: "1.0.1",
+             version: "1.0.2",
              href: "https://github.com/willsALMANJ/Zoterodactyl",
              summary: "Key mappings for Zotero",
              xmlns: "dactyl" },
@@ -12,13 +12,17 @@ var INFO =
     ["project", { name: "Pentadactyl", "min-version": "1.0" }],
     ["p", {},
         "This plugin implements a set of key mappings for working with ",
-        "Zotero with Pentadactyl without entering passthrough mode.  See ",
-        "the zotero_keys site for the list of keymappings."]];
+        "Zotero with Pentadactyl without entering passthrough mode."]];
+
+let zmaps = [];
 
 // Show/focus Zotero.  
 // argument can be used to set focus (1=search, 2=collection pane, 3=items tree)
-group.mappings.add([modes.NORMAL], ["zf"], "Show or focus Zotero",
-	function(args) {
+zmaps = zmaps.concat({
+	modes: [modes.NORMAL],
+	maps: ["zf"],
+	description: "Show or focus Zotero",
+	command: function(args) {
 		ZoteroOverlay.toggleDisplay(true);
 		
 		var count;
@@ -56,68 +60,77 @@ group.mappings.add([modes.NORMAL], ["zf"], "Show or focus Zotero",
 			}
 		}, 200);
 	},
-	{count: true}
-);
+	options: {count: true}
+});
+zmaps = zmaps.concat({
+	modes: [modes.NORMAL],
+	maps: ["zc"],
+	description: "Hide Zotero",
+	command: function() {ZoteroOverlay.toggleDisplay(false)}
+});
+zmaps = zmaps.concat({
+	modes: [modes.NORMAL],
+	maps: ["zs"],
+	description: "Save item from page", 
+	command: function() {Zotero_Browser.scrapeThisPage()}
+});
+zmaps = zmaps.concat({
+	modes: [modes.NORMAL],
+	maps: ["zN"],
+	description: "Open new item menu", 
+	command: function() {document.getElementById("zotero-tb-add").firstChild.showPopup()}
+});
+zmaps = zmaps.concat({
+	modes: [modes.NORMAL],
+	maps: ["zw"],
+	description: "Create website item for the current page", 
+	command: function() {ZoteroPane.addItemFromPage()}
+});
+zmaps = zmaps.concat({
+	modes: [modes.NORMAL],
+	maps: ["J"],
+	description: "Select next item", 
+	command: function() {selectAdjacent(1);}
+});
+zmaps = zmaps.concat({
+	modes: [modes.NORMAL],
+	maps: ["K"],
+	description: "Select previous item", 
+	command: function() {selectAdjacent(-1);}
+});
+zmaps = zmaps.concat({
+	modes: [modes.NORMAL],
+	maps: [")"],
+	description: "Select next item (holding previous selections)", 
+	command: function() {selectRangedAdjacent(1)}
+});
+zmaps = zmaps.concat({
+	modes: [modes.NORMAL],
+	maps: ["("],
+	description: "Select next item (holding previous selections)", 
+	command: function() {selectRangedAdjacent(-1)}
+});
+zmaps = zmaps.concat({
+	modes: [modes.NORMAL],
+	maps: ["zT"], 
+	description: "Toggle current Zotero item's attachments open/closed",
+	command: function() {
+			var curIdx = ZoteroPane.itemsView.selection.currentIndex;
+			if (ZoteroPane.itemsView.isContainer(curIdx)) {
+				ZoteroPane.itemsView.toggleOpenState(curIdx);
+			}
+		}
+});
 
-// Hide Zotero
-group.mappings.add([modes.NORMAL], ["zc"], "Hide Zotero",
-	function() {ZoteroOverlay.toggleDisplay(false)}
-);
-
-// Save item from current page
-group.mappings.add([modes.NORMAL], ["zs"], "Save item from page", 
-	function() {Zotero_Browser.scrapeThisPage()}
-);
-
-// New item
-group.mappings.add([modes.NORMAL], ["zN"], "Open new item menu", 
-	function() {document.getElementById("zotero-tb-add").firstChild.showPopup()}
-);
-
-// New item from current webpage
-group.mappings.add([modes.NORMAL], ["zw"], "Create website item for the current page", 
-	function() {ZoteroPane.addItemFromPage()}
-);
-
-// Select next item
-group.mappings.add([modes.NORMAL], ["J"], "Select next item", 
-	function() {
-		selectAdjacent(1);
-	}
-);
-
-// Select previous item
-group.mappings.add([modes.NORMAL], ["K"], "Select previous item", 
-	function() {
-		selectAdjacent(-1);
-	}
-);
-
-// Select next item (holding previous selections)
-group.mappings.add([modes.NORMAL], [")"], 
-	"Select next item (holding previous selections)", 
-	function() {
-		selectRangedAdjacent(1)
-	}
-);
-
-// Select next item (holding previous selections)
-group.mappings.add([modes.NORMAL], ["("], 
-	"Select next item (holding previous selections)", 
-	function() {
-		selectRangedAdjacent(-1)
-	}
-);
-
-group.mappings.add([modes.NORMAL], ["zT"], 
-	"Toggle current Zotero item's attachments open/closed",
-	function() {
-		var curIdx = ZoteroPane.itemsView.selection.currentIndex;
-		if (ZoteroPane.itemsView.isContainer(curIdx)) {
-     		ZoteroPane.itemsView.toggleOpenState(curIdx);
-     	}
-	}
-);
+zmaps.forEach(function(zmap) {
+	group.mappings.add(zmap.modes, zmap.maps, zmap.description, zmap.command,
+		zmap.options);
+	INFO.push(["item", {},
+        ["tags", {}, zmap.maps.join(' ')],
+        ['spec', {}, zmap.maps.join(' ')],
+        ["description", {short: "true"},
+            ['p', {}, zmap.description]]]);
+});
 
 function selectAdjacent(sign) {
 	var curIdx = ZoteroPane.itemsView.selection.currentIndex;
