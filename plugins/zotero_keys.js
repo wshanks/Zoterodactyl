@@ -1,7 +1,7 @@
 "use strict";
 var INFO =
 ["plugin", { name: "zotero_keys",
-             version: "1.0.2",
+             version: "1.0.3",
              href: "https://github.com/willsALMANJ/Zoterodactyl",
              summary: "Key mappings for Zotero",
              xmlns: "dactyl" },
@@ -120,6 +120,12 @@ zmaps = zmaps.concat({
 				ZoteroPane.itemsView.toggleOpenState(curIdx);
 			}
 		}
+});
+zmaps = zmaps.concat({
+	modes: [modes.NORMAL],
+	maps: ["zq"],
+	description: "QuickCopy selected items to clipboard", 
+	command: function() {ZoteroPane.copySelectedItemsToClipboard(false);}
 });
 
 zmaps.forEach(function(zmap) {
