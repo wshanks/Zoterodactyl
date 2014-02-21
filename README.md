@@ -24,6 +24,8 @@ zotero_keys.js
 
 * __zT:__ Toggle current Zotero item's children (attachments and notes) open and closed.
 
+* __zq:__ Use Zotero's [Quick Copy](http://www.zotero.org/support/creating_bibliographies) on selected items.
+
 zutilo_keys.js
 --------------
 ### Key mappings ###
