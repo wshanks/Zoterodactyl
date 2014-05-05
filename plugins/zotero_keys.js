@@ -1,7 +1,7 @@
 "use strict";
 var INFO =
 ["plugin", { name: "zotero_keys",
-             version: "1.0.3",
+             version: "2.0",
              href: "https://github.com/willsALMANJ/Zoterodactyl",
              summary: "Key mappings for Zotero",
              xmlns: "dactyl" },
@@ -14,27 +14,31 @@ var INFO =
         "This plugin implements a set of key mappings for working with ",
         "Zotero with Pentadactyl without entering passthrough mode."]];
 
-let zmaps = [];
+// zoterofocus -- try/catch to work on first time?
 
-// Show/focus Zotero.  
+var Actions = new Object();
+// Show / focus Zotero
 // argument can be used to set focus (1=search, 2=collection pane, 3=items tree)
-zmaps = zmaps.concat({
-	modes: [modes.NORMAL],
-	maps: ["zf"],
+Actions['zoterofocus'] = {
 	description: "Show or focus Zotero",
+	mappings: [
+		{
+			keys: ['zf'],
+			openExMode: false
+		}
+	],
+	count: {
+		descriptions: ["Focus search box","Focus Collections tree",
+			"Focus Items tree"]
+	},
 	command: function(args) {
 		ZoteroOverlay.toggleDisplay(true);
 		
-		var count;
-		if (args.count === null) {
-			count = 3;
-		} else {
-			count = args.count;
-		}
+		var count = args['-n'] || 3;
 		
 		window.setTimeout(function() {
-			/* This is more concise and will work if the UI changes, but maybe it is 
-			safer to just focus the elements directly as done below?
+			/* This is more concise and will work if the UI changes, but maybe 
+			it is safer to just focus the elements directly as done below?
 			for (var idx=0; idx<count-1; idx++) {
 				document.commandDispatcher.advanceFocus();
 			}
@@ -60,84 +64,217 @@ zmaps = zmaps.concat({
 			}
 		}, 200);
 	},
-	options: {count: true}
-});
-zmaps = zmaps.concat({
-	modes: [modes.NORMAL],
-	maps: ["zc"],
+};
+
+Actions['zoteroclose'] = {
 	description: "Hide Zotero",
-	command: function() {ZoteroOverlay.toggleDisplay(false)}
-});
-zmaps = zmaps.concat({
-	modes: [modes.NORMAL],
-	maps: ["zs"],
+	mappings: [
+		{
+			keys: ['zc'],
+			openExMode: false
+		}
+	],
+	
+	command: function(args) {
+		ZoteroOverlay.toggleDisplay(false)
+	},
+	extraInfo: {
+		argCount: 0
+	}
+};
+
+Actions['zoterosaveitem'] = {
 	description: "Save item from page", 
+	mappings: [
+		{
+			keys: ['zs'],
+			openExMode: false
+		}
+	],
 	command: function() {Zotero_Browser.scrapeThisPage()}
-});
-zmaps = zmaps.concat({
-	modes: [modes.NORMAL],
-	maps: ["zN"],
+};
+Actions['zoteronewitemmenu'] = {
 	description: "Open new item menu", 
-	command: function() {document.getElementById("zotero-tb-add").firstChild.showPopup()}
-});
-zmaps = zmaps.concat({
-	modes: [modes.NORMAL],
-	maps: ["zw"],
+	mappings: [
+		{
+			keys: ['zN'],
+			openExMode: false
+		}
+	],
+	command: function() {
+		document.getElementById("zotero-tb-add").firstChild.showPopup()}
+};
+Actions['zoteronewwebitem'] = {
 	description: "Create website item for the current page", 
+	mappings: [
+		{
+			keys: ['zw'],
+			openExMode: false
+		}
+	],
 	command: function() {ZoteroPane.addItemFromPage()}
-});
-zmaps = zmaps.concat({
-	modes: [modes.NORMAL],
-	maps: ["J"],
+};
+Actions['zoteronextitem'] = {
 	description: "Select next item", 
+	mappings: [
+		{
+			keys: ['J'],
+			openExMode: false
+		}
+	],
 	command: function() {selectAdjacent(1);}
-});
-zmaps = zmaps.concat({
-	modes: [modes.NORMAL],
-	maps: ["K"],
+};
+Actions['zoteropreviousitem'] = {
 	description: "Select previous item", 
+	mappings: [
+		{
+			keys: ['K'],
+			openExMode: false
+		}
+	],
 	command: function() {selectAdjacent(-1);}
-});
-zmaps = zmaps.concat({
-	modes: [modes.NORMAL],
-	maps: [")"],
+};
+Actions['zoteroshiftselectnextitem'] = {
 	description: "Select next item (holding previous selections)", 
+	mappings: [
+		{
+			keys: [')'],
+			openExMode: false
+		}
+	],
 	command: function() {selectRangedAdjacent(1)}
-});
-zmaps = zmaps.concat({
-	modes: [modes.NORMAL],
-	maps: ["("],
+};
+Actions['zoteroshiftselectpreviousitem'] = {
 	description: "Select next item (holding previous selections)", 
+	mappings: [
+		{
+			keys: ['('],
+			openExMode: false
+		}
+	],
 	command: function() {selectRangedAdjacent(-1)}
-});
-zmaps = zmaps.concat({
-	modes: [modes.NORMAL],
-	maps: ["zT"], 
+};
+Actions['zoterotoggleitem'] = {
 	description: "Toggle current Zotero item's attachments open/closed",
+	mappings: [
+		{
+			keys: ['zT'],
+			openExMode: false
+		}
+	],
 	command: function() {
 			var curIdx = ZoteroPane.itemsView.selection.currentIndex;
 			if (ZoteroPane.itemsView.isContainer(curIdx)) {
 				ZoteroPane.itemsView.toggleOpenState(curIdx);
 			}
 		}
-});
-zmaps = zmaps.concat({
-	modes: [modes.NORMAL],
-	maps: ["zq"],
+};
+Actions['zoteroquickcopy'] = {
 	description: "QuickCopy selected items to clipboard", 
+	mappings: [
+		{
+			keys: ['zq'],
+			openExMode: false
+		}
+	],
 	command: function() {ZoteroPane.copySelectedItemsToClipboard(false);}
-});
+};
 
-zmaps.forEach(function(zmap) {
-	group.mappings.add(zmap.modes, zmap.maps, zmap.description, zmap.command,
-		zmap.options);
+/*
+ * Add commands / mappings
+ */
+function addMapping(action, mapping) {
+	let command;
+	let actionStr=action; //Needed for scoping/evaluation reasons
+	if (mapping.openExMode) {
+		command=(function(args) {
+			CommandExMode().open(actionStr+" ")
+		});
+	} else {
+		command=(function(args) {
+			(Actions[actionStr].command(args));
+		});
+	}
+
+	group.mappings.add([modes.NORMAL], mapping.keys,
+		Actions[action].description,
+		(command),
+		{}
+	);
+}
+
+function defaultArgDescription(argName, defaultStr) {
+	return ['  If ',['oa',{},argName],
+		' is omitted, then the default value of ',
+		['str',{},defaultStr],' is used.']
+}
+
+for (let action in Actions) {
+	let actionStr = action;
+	
+	if (!('extraInfo' in Actions[action])) {
+		Actions[action].extraInfo = {};
+	}
+	
+	if ('count' in Actions[action]) {
+		if (!('options' in Actions[action].extraInfo)) {
+			Actions[action].extraInfo.options = [];
+		}
+
+		Actions[action].extraInfo.options.push(
+			{
+				names: ['-n'],
+				description: 'Quick modes',
+				type: CommandOption.INT,
+				completer: function (context) {
+					let completions = [];
+					for (let i=0; i<Actions[actionStr].count.descriptions.length; i++) {
+						completions.push(
+							[i+1,Actions[actionStr].count.descriptions[i]]);
+					}
+					context.completions = completions;
+				},
+				validator: Option.validateCompleter
+			});
+	}	
+	
+	group.commands.add([action],
+		Actions[action].description,
+				Actions[action].command,
+		Actions[action].extraInfo,
+		true);
+
+	if ('mappings' in Actions[action]) {
+		for (let i=0; i<Actions[action].mappings.length; i++) {
+			addMapping(action, Actions[action].mappings[i]);
+		}
+	}
+	
+	let tagStr=":"+action;
+	if ('mappings' in Actions[action]) {
+			tagStr+=' '+Actions[action].mappings[0].keys.join(' ');
+	}
+	let specVal;
+	if ('argName' in Actions[action]) {
+		specVal=['spec',{},":"+action+' ',
+			['oa',{},Actions[action].argName]];
+	} else {
+		specVal=['spec',{},":"+action];
+	}
+	let description=["p", {}, Actions[action].description];
+	if ('extraDescription' in Actions[action]) {
+			description=description.concat(Actions[action].extraDescription());
+	}
 	INFO.push(["item", {},
-        ["tags", {}, zmap.maps.join(' ')],
-        ['spec', {}, zmap.maps.join(' ')],
-        ["description", {short: "true"},
-            ['p', {}, zmap.description]]]);
-});
+		["tags", {}, tagStr],
+		specVal,
+		["description", {},
+			description]]);
+}
 
+/*
+ * Utility functions
+ */
 function selectAdjacent(sign) {
 	var curIdx = ZoteroPane.itemsView.selection.currentIndex;
 	// Don't move past ends of list

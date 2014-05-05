@@ -1,7 +1,7 @@
 "use strict";
 var INFO =
 ["plugin", { name: "zutilo_keys",
-             version: "1.0.1",
+             version: "2.0",
              href: "https://github.com/willsALMANJ/Zoterodactyl",
              summary: "Key mappings for Zutilo",
              xmlns: "dactyl" },
@@ -11,97 +11,159 @@ var INFO =
         "Mozilla Public License 2.0"],
     ["project", { name: "Pentadactyl", "min-version": "1.0" }],
     ["p", {},
-        "This plugin implements a set of key mappings for working with the Zutilo ",
-        "plugin for Zotero with Pentadactyl without entering passthrough mode."]];
+        "This plugin implements a set of key mappings for working with the ",
+		"Zutilo plugin for Zotero with Pentadactyl without entering ",
+		"passthrough mode."]];
         
-let zmaps = [];
+var Actions = new Object();
 
-zmaps=zmaps.concat({modes: [modes.NORMAL], 
-	maps: ["zy"], 
+Actions['zoteroyanktags'] = {
 	description: 'Copy ("yank") Zotero item tags', 
+	mappings: [
+		{
+			keys: ["zy"],
+			openExMode: false
+		}
+	],
 	command: function() {ZutiloChrome.zoteroOverlay.copyTags()}
-});
-zmaps=zmaps.concat({modes: [modes.NORMAL], 
-	maps: ["zp"], 
+};
+Actions['zoteropastetags'] = {
 	description: "Paste Zotero item tags", 
+	mappings: [
+		{
+			keys: ["zp"],
+			openExMode: false
+		}
+	],
 	command: function() {ZutiloChrome.zoteroOverlay.pasteTags()}
-});
-zmaps=zmaps.concat({modes: [modes.NORMAL], 
-	maps: ["zC"],
+};
+Actions['zoterocopycreators'] = {
 	description: "Copy Zotero item creators",
+	mappings: [
+		{
+			keys: ["zC"],
+			openExMode: false
+		}
+	],
 	command: function() {ZutiloChrome.zoteroOverlay.copyCreators()}
-});
-zmaps=zmaps.concat({modes: [modes.NORMAL],
-	maps: ["zP"],
+};
+Actions['zoteroshowpaths'] = {
 	description: "Show attachment paths", 
+	mappings: [
+		{
+			keys: ["zP"],
+			openExMode: false
+		}
+	],
 	command: function() {ZutiloChrome.zoteroOverlay.showAttachments()}
-});
-zmaps=zmaps.concat({modes: [modes.NORMAL],
-	maps: ["zM"],
+};
+Actions['zoteromodifypaths'] = {
 	description: "Modify attachment paths", 
+	mappings: [
+		{
+			keys: ["zM"],
+			openExMode: false
+		}
+	],
 	command: function() {ZutiloChrome.zoteroOverlay.modifyAttachments()}
-});
-zmaps=zmaps.concat({modes: [modes.NORMAL],
-	maps: ["zR"],
+};
+Actions['zoterorelateitems'] = {
 	description: "Relate Zotero items", 
+	mappings: [
+		{
+			keys: ["zR"],
+			openExMode: false
+		}
+	],
 	command: function() {ZutiloChrome.zoteroOverlay.relateItems()}
-});
-zmaps=zmaps.concat({modes: [modes.NORMAL],
-	maps: ["ze"],
+};
+Actions['zoteroedititem'] = {
 	description: "Edit item info", 
+	mappings: [
+		{
+			keys: ["ze"],
+			openExMode: false
+		}
+	],
 	command: function() {ZutiloChrome.zoteroOverlay.editItemInfoGUI()}
-});
-zmaps=zmaps.concat({modes: [modes.NORMAL],
-	maps: ["zn"],
+};
+Actions['zoteroaddnote'] = {
 	description: "Add note to item", 
+	mappings: [
+		{
+			keys: ["zn"],
+			openExMode: false
+		}
+	],
 	command: function() {ZutiloChrome.zoteroOverlay.addNoteGUI()}
-});
-zmaps=zmaps.concat({modes: [modes.NORMAL],
-	maps: ["zt"],
+};
+Actions['zoteroaddtag'] = {
 	description: "Add tag to item", 
+	mappings: [
+		{
+			keys: ["zt"],
+			openExMode: false
+		}
+	],
 	command: function() {ZutiloChrome.zoteroOverlay.addTagGUI()}
-});
-zmaps=zmaps.concat({modes: [modes.NORMAL],
-	maps: ["z-R"],
+};
+Actions['zoterorelateitemsdialog'] = {
 	description: "Open relate items dialog", 
+	mappings: [
+		{
+			keys: ["z-R"],
+			openExMode: false
+		}
+	],
 	command: function() {ZutiloChrome.zoteroOverlay.addRelatedGUI()}
-});
-zmaps=zmaps.concat({modes: [modes.NORMAL],
-	maps: ["za"],
+};
+Actions['zoteroattachpage'] = {
 	description: "Attach current page to current Zotero item", 
+	mappings: [
+		{
+			keys: ["za"],
+			openExMode: false
+		}
+	],
 	command: function() {
 		ZutiloChrome.firefoxOverlay.attachURLToCurrentItem(
 			window.content.location.href);
 	}
-});
-zmaps=zmaps.concat({modes: [modes.NORMAL],
-	maps: ["zS"],
+};
+Actions['zoterosaveitemopposite'] = {
 	description: "Save item from page (opposite attachment handling from Zotero preference setting)", 
+	mappings: [
+		{
+			keys: ["zS"],
+			openExMode: false
+		}
+	],
 	command: function() {ZutiloChrome.firefoxOverlay.scrapeThisPage()}
-});
-zmaps=zmaps.concat({modes: [modes.NORMAL],
-	maps: ["z-s"],
+};
+Actions['zoterosaveitemwithattachments'] = {
 	description: "Save item from page with attachments (regardless of Zotero preference)", 
+	mappings: [
+		{
+			keys: ["z-s"],
+			openExMode: false
+		}
+	],
 	command: function() {
 		ZutiloChrome.firefoxOverlay.scrapeThisPage(false, true);
 	}
-});
-zmaps=zmaps.concat({modes: [modes.NORMAL],
-	maps: ["z-S"],
+};
+Actions['zoterosaveitemnoattachments'] = {
 	description: "Save item from page without attachments (regardless of Zotero preference)", 
+	mappings: [
+		{
+			keys: ["z-S"],
+			openExMode: false
+		}
+	],
 	command: function() {
 		ZutiloChrome.firefoxOverlay.scrapeThisPage(false, false);
 	}
-});
-
-zmaps.forEach(function(zmap) {
-	group.mappings.add(zmap.modes, zmap.maps, zmap.description, zmap.command);
-	INFO.push(["item", {},
-        ["tags", {}, zmap.maps.join(' ')],
-        ['spec', {}, zmap.maps.join(' ')],
-        ["description", {short: "true"},
-            ['p', {}, zmap.description]]]);
-});
+};
 
 let zhints=[];
 zhints=zhints.concat({hint: 'z',
@@ -117,3 +179,92 @@ zhints.forEach(function(zhint) {
         ["description", {short: "true"},
             ['p', {}, zhint.description]]]);
 });
+
+/*
+ * Add commands / mappings
+ */
+function addMapping(action, mapping) {
+	let command;
+	let actionStr=action; //Needed for scoping/evaluation reasons
+	if (mapping.openExMode) {
+		command=(function(args) {
+			CommandExMode().open(actionStr+" ")
+		});
+	} else {
+		command=(function(args) {
+			(Actions[actionStr].command(args));
+		});
+	}
+
+	group.mappings.add([modes.NORMAL], mapping.keys,
+		Actions[action].description,
+		(command),
+		{}
+	);
+}
+
+function defaultArgDescription(argName, defaultStr) {
+	return ['  If ',['oa',{},argName],
+		' is omitted, then the default value of ',
+		['str',{},defaultStr],' is used.']
+}
+
+for (let action in Actions) {
+	if (!('extraInfo' in Actions[action])) {
+		Actions[action].extraInfo = {};
+	}
+	
+	if ('count' in Actions[action]) {
+		if (!('options' in Actions[action].extraInfo)) {
+			Actions[action].extraInfo.options = [];
+		}
+
+		Actions[action].extraInfo.options.push(
+			{
+				names: ['-n'],
+				description: 'Quick modes',
+				type: CommandOption.INT,
+				completer: function (context) {
+					context.completions = [];
+					for (let i=0; i<Actions[action].count.descriptions; i++) {
+						context.completions.push(
+							[i+1,Actions[action].count.descriptions[i]]);
+					}
+				},
+				validator: Option.validateCompleter
+			});
+	}	
+	
+	group.commands.add([action],
+		Actions[action].description,
+				Actions[action].command,
+		Actions[action].extraInfo,
+		true);
+
+	if ('mappings' in Actions[action]) {
+		for (let i=0; i<Actions[action].mappings.length; i++) {
+			addMapping(action, Actions[action].mappings[i]);
+		}
+	}
+	
+	let tagStr=":"+action;
+	if ('mappings' in Actions[action]) {
+			tagStr+=' '+Actions[action].mappings[0].keys.join(' ');
+	}
+	let specVal;
+	if ('argName' in Actions[action]) {
+		specVal=['spec',{},":"+action+' ',
+			['oa',{},Actions[action].argName]];
+	} else {
+		specVal=['spec',{},":"+action];
+	}
+	let description=["p", {}, Actions[action].description];
+	if ('extraDescription' in Actions[action]) {
+			description=description.concat(Actions[action].extraDescription());
+	}
+	INFO.push(["item", {},
+		["tags", {}, tagStr],
+		specVal,
+		["description", {},
+			description]]);
+}
