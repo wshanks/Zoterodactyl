@@ -1,0 +1,19 @@
+{
+	"bitwise": true,
+	"camelcase": true,
+	"curly": true,
+	"eqeqeq": true,
+	"forin": true,
+	"immed": true,
+	"latedef": true,
+	"newcap": true,
+	"quotmark": true,
+	"undef": true,
+	"unused": true,
+	"trailing": true,
+	"globalstrict": true,
+	"moz": true,
+	"sub": true,
+	"browser": true,
+	"devel": true
+}

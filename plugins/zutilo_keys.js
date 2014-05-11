@@ -1,127 +1,128 @@
-"use strict";
+'use strict';
+/* global ZutiloChrome, CommandExMode, hints, group, modes, CommandOption */
 var INFO =
-["plugin", { name: "zutilo_keys",
-             version: "2.0",
-             href: "https://github.com/willsALMANJ/Zoterodactyl",
-             summary: "Key mappings for Zutilo",
-             xmlns: "dactyl" },
-    ["author", { href: "https://github.com/willsALMANJ" },
-        "Will Shanks"],
-    ["license", { href: "http://www.mozilla.org/MPL/2.0/" },
-        "Mozilla Public License 2.0"],
-    ["project", { name: "Pentadactyl", "min-version": "1.0" }],
-    ["p", {},
-        "This plugin implements a set of key mappings for working with the ",
-		"Zutilo plugin for Zotero with Pentadactyl without entering ",
-		"passthrough mode."]];
+['plugin', { name: 'zutilo_keys',
+             version: '2.0',
+             href: 'https://github.com/willsALMANJ/Zoterodactyl',
+             summary: 'Key mappings for Zutilo',
+             xmlns: 'dactyl' },
+    ['author', { href: 'https://github.com/willsALMANJ' },
+        'Will Shanks'],
+    ['license', { href: 'http://www.mozilla.org/MPL/2.0/' },
+        'Mozilla Public License 2.0'],
+    ['project', { name: 'Pentadactyl', 'min-version': '1.0' }],
+    ['p', {},
+        'This plugin implements a set of key mappings for working with the ',
+		'Zutilo plugin for Zotero with Pentadactyl without entering ',
+		'passthrough mode.']];
         
-var Actions = new Object();
+var Actions = {};
 
 Actions['zoteroyanktags'] = {
 	description: 'Copy ("yank") Zotero item tags', 
 	mappings: [
 		{
-			keys: ["zy"],
+			keys: ['zy'],
 			openExMode: false
 		}
 	],
-	command: function() {ZutiloChrome.zoteroOverlay.copyTags()}
+	command: function() {ZutiloChrome.zoteroOverlay.copyTags();}
 };
 Actions['zoteropastetags'] = {
-	description: "Paste Zotero item tags", 
+	description: 'Paste Zotero item tags', 
 	mappings: [
 		{
-			keys: ["zp"],
+			keys: ['zp'],
 			openExMode: false
 		}
 	],
-	command: function() {ZutiloChrome.zoteroOverlay.pasteTags()}
+	command: function() {ZutiloChrome.zoteroOverlay.pasteTags();}
 };
 Actions['zoterocopycreators'] = {
-	description: "Copy Zotero item creators",
+	description: 'Copy Zotero item creators',
 	mappings: [
 		{
-			keys: ["zC"],
+			keys: ['zC'],
 			openExMode: false
 		}
 	],
-	command: function() {ZutiloChrome.zoteroOverlay.copyCreators()}
+	command: function() {ZutiloChrome.zoteroOverlay.copyCreators();}
 };
 Actions['zoteroshowpaths'] = {
-	description: "Show attachment paths", 
+	description: 'Show attachment paths', 
 	mappings: [
 		{
-			keys: ["zP"],
+			keys: ['zP'],
 			openExMode: false
 		}
 	],
-	command: function() {ZutiloChrome.zoteroOverlay.showAttachments()}
+	command: function() {ZutiloChrome.zoteroOverlay.showAttachments();}
 };
 Actions['zoteromodifypaths'] = {
-	description: "Modify attachment paths", 
+	description: 'Modify attachment paths', 
 	mappings: [
 		{
-			keys: ["zM"],
+			keys: ['zM'],
 			openExMode: false
 		}
 	],
-	command: function() {ZutiloChrome.zoteroOverlay.modifyAttachments()}
+	command: function() {ZutiloChrome.zoteroOverlay.modifyAttachments();}
 };
 Actions['zoterorelateitems'] = {
-	description: "Relate Zotero items", 
+	description: 'Relate Zotero items', 
 	mappings: [
 		{
-			keys: ["zR"],
+			keys: ['zR'],
 			openExMode: false
 		}
 	],
-	command: function() {ZutiloChrome.zoteroOverlay.relateItems()}
+	command: function() {ZutiloChrome.zoteroOverlay.relateItems();}
 };
 Actions['zoteroedititem'] = {
-	description: "Edit item info", 
+	description: 'Edit item info', 
 	mappings: [
 		{
-			keys: ["ze"],
+			keys: ['ze'],
 			openExMode: false
 		}
 	],
-	command: function() {ZutiloChrome.zoteroOverlay.editItemInfoGUI()}
+	command: function() {ZutiloChrome.zoteroOverlay.editItemInfoGUI();}
 };
 Actions['zoteroaddnote'] = {
-	description: "Add note to item", 
+	description: 'Add note to item', 
 	mappings: [
 		{
-			keys: ["zn"],
+			keys: ['zn'],
 			openExMode: false
 		}
 	],
-	command: function() {ZutiloChrome.zoteroOverlay.addNoteGUI()}
+	command: function() {ZutiloChrome.zoteroOverlay.addNoteGUI();}
 };
 Actions['zoteroaddtag'] = {
-	description: "Add tag to item", 
+	description: 'Add tag to item', 
 	mappings: [
 		{
-			keys: ["zt"],
+			keys: ['zt'],
 			openExMode: false
 		}
 	],
-	command: function() {ZutiloChrome.zoteroOverlay.addTagGUI()}
+	command: function() {ZutiloChrome.zoteroOverlay.addTagGUI();}
 };
 Actions['zoterorelateitemsdialog'] = {
-	description: "Open relate items dialog", 
+	description: 'Open relate items dialog', 
 	mappings: [
 		{
-			keys: ["z-R"],
+			keys: ['z-R'],
 			openExMode: false
 		}
 	],
-	command: function() {ZutiloChrome.zoteroOverlay.addRelatedGUI()}
+	command: function() {ZutiloChrome.zoteroOverlay.addRelatedGUI();}
 };
 Actions['zoteroattachpage'] = {
-	description: "Attach current page to current Zotero item", 
+	description: 'Attach current page to current Zotero item', 
 	mappings: [
 		{
-			keys: ["za"],
+			keys: ['za'],
 			openExMode: false
 		}
 	],
@@ -131,20 +132,20 @@ Actions['zoteroattachpage'] = {
 	}
 };
 Actions['zoterosaveitemopposite'] = {
-	description: "Save item from page (opposite attachment handling from Zotero preference setting)", 
+	description: 'Save item from page (opposite attachment handling from Zotero preference setting)', 
 	mappings: [
 		{
-			keys: ["zS"],
+			keys: ['zS'],
 			openExMode: false
 		}
 	],
-	command: function() {ZutiloChrome.firefoxOverlay.scrapeThisPage()}
+	command: function() {ZutiloChrome.firefoxOverlay.scrapeThisPage();}
 };
 Actions['zoterosaveitemwithattachments'] = {
-	description: "Save item from page with attachments (regardless of Zotero preference)", 
+	description: 'Save item from page with attachments (regardless of Zotero preference)', 
 	mappings: [
 		{
-			keys: ["z-s"],
+			keys: ['z-s'],
 			openExMode: false
 		}
 	],
@@ -153,10 +154,10 @@ Actions['zoterosaveitemwithattachments'] = {
 	}
 };
 Actions['zoterosaveitemnoattachments'] = {
-	description: "Save item from page without attachments (regardless of Zotero preference)", 
+	description: 'Save item from page without attachments (regardless of Zotero preference)', 
 	mappings: [
 		{
-			keys: ["z-S"],
+			keys: ['z-S'],
 			openExMode: false
 		}
 	],
@@ -173,98 +174,101 @@ zhints=zhints.concat({hint: 'z',
 
 zhints.forEach(function(zhint) {
 	hints.addMode(zhint.hint, zhint.description, zhint.command);
-	INFO.push(["item", {},
-        ["tags", {}, ';' + zhint.hint],
+	INFO.push(['item', {},
+        ['tags', {}, ';' + zhint.hint],
         ['spec', {}, ';' + zhint.hint],
-        ["description", {short: "true"},
+        ['description', {short: 'true'},
             ['p', {}, zhint.description]]]);
 });
-
 /*
  * Add commands / mappings
  */
-function addMapping(action, mapping) {
-	let command;
-	let actionStr=action; //Needed for scoping/evaluation reasons
-	if (mapping.openExMode) {
-		command=(function(args) {
-			CommandExMode().open(actionStr+" ")
-		});
-	} else {
-		command=(function(args) {
-			(Actions[actionStr].command(args));
-		});
-	}
-
-	group.mappings.add([modes.NORMAL], mapping.keys,
-		Actions[action].description,
-		(command),
-		{}
-	);
+function commandFunction(action, mapping) {
+	return function(args) {
+		if (mapping.openExMode) {
+			let cExMode = new CommandExMode();
+			cExMode.open(action+' ');
+		} else {
+			Actions[action].command(args);
+		}
+	};
 }
-
+function addMappings(action) {
+	for (let i=0; i<Actions[action].mappings.length; i++) {
+		let mapping= Actions[action].mappings[i];
+		group.mappings.add([modes.NORMAL], mapping.keys,
+			Actions[action].description,
+			commandFunction(action, mapping),
+			{}
+		);
+	}
+}
+/* (Commented out until commands with arguments are implemented
 function defaultArgDescription(argName, defaultStr) {
 	return ['  If ',['oa',{},argName],
 		' is omitted, then the default value of ',
-		['str',{},defaultStr],' is used.']
+		['str',{},defaultStr],' is used.'];
 }
-
+*/
+function zCompleter(action) {
+	return function (context) {
+		let completions = [];
+		for (let i=0; i<Actions[action].count.descriptions.length; i++) {
+			completions.push(
+				[i+1,Actions[action].count.descriptions[i]]);
+		}
+		context.completions = completions;
+	};
+}
 for (let action in Actions) {
-	if (!('extraInfo' in Actions[action])) {
-		Actions[action].extraInfo = {};
-	}
-	
-	if ('count' in Actions[action]) {
-		if (!('options' in Actions[action].extraInfo)) {
-			Actions[action].extraInfo.options = [];
+	if (Actions.hasOwnProperty(action)) {
+		if (!('extraInfo' in Actions[action])) {
+			Actions[action].extraInfo = {};
 		}
-
-		Actions[action].extraInfo.options.push(
-			{
-				names: ['-n'],
-				description: 'Quick modes',
-				type: CommandOption.INT,
-				completer: function (context) {
-					context.completions = [];
-					for (let i=0; i<Actions[action].count.descriptions; i++) {
-						context.completions.push(
-							[i+1,Actions[action].count.descriptions[i]]);
-					}
-				},
-				validator: Option.validateCompleter
-			});
-	}	
+		
+		if ('count' in Actions[action]) {
+			if (!('options' in Actions[action].extraInfo)) {
+				Actions[action].extraInfo.options = [];
+			}
 	
-	group.commands.add([action],
-		Actions[action].description,
-				Actions[action].command,
-		Actions[action].extraInfo,
-		true);
-
-	if ('mappings' in Actions[action]) {
-		for (let i=0; i<Actions[action].mappings.length; i++) {
-			addMapping(action, Actions[action].mappings[i]);
+			Actions[action].extraInfo.options.push(
+				{
+					names: ['-n'],
+					description: 'Quick modes',
+					type: CommandOption.INT,
+					completer: zCompleter(action)
+				});
+		}	
+		
+		group.commands.add([action],
+			Actions[action].description,
+			Actions[action].command,
+			Actions[action].extraInfo,
+			true);
+	
+		if ('mappings' in Actions[action]) {
+				addMappings(action);
 		}
-	}
-	
-	let tagStr=":"+action;
-	if ('mappings' in Actions[action]) {
+		
+		let tagStr=':'+action;
+		if ('mappings' in Actions[action]) {
 			tagStr+=' '+Actions[action].mappings[0].keys.join(' ');
-	}
-	let specVal;
-	if ('argName' in Actions[action]) {
-		specVal=['spec',{},":"+action+' ',
-			['oa',{},Actions[action].argName]];
-	} else {
-		specVal=['spec',{},":"+action];
-	}
-	let description=["p", {}, Actions[action].description];
-	if ('extraDescription' in Actions[action]) {
+		}
+		let specVal;
+		if ('argName' in Actions[action]) {
+			specVal=['spec',{},':'+action+' ',
+				['oa',{},Actions[action].argName]];
+		} else {
+			specVal=['spec',{},':'+action];
+		}
+		let description=['p', {}, Actions[action].description];
+		if ('extraDescription' in Actions[action]) {
 			description=description.concat(Actions[action].extraDescription());
+		}
+		INFO.push(['item', {},
+			['tags', {}, tagStr],
+			specVal,
+			['description', {},
+				description]]);
 	}
-	INFO.push(["item", {},
-		["tags", {}, tagStr],
-		specVal,
-		["description", {},
-			description]]);
 }
