@@ -2,6 +2,8 @@ Zoterodactyl
 ============
 Zoterodactyl is a set of Pentadactyl plugins that provide key mappings for [Zotero](http://www.zotero.org), so that common operations can be performed without entering passthrough mode.  `zotero_keys.js` provides mappings that work with basic Zotero.  `zutilo_keys.js` provides keys for the [Zutilo](https://github.com/willsALMANJ/Zutilo) plugin for Zotero.  
 
+__Note:__ the documentation below is currently a bit out of date. The most up to date documentation is contained in `:help plugins` inside Pentadactyl. All of the commands listed below still exist but they now are also available as ex commands for easy remapping. Once I find any way to convert Pentadactyl's documentation XML into markdown, this README file will be updated.
+
 zotero_keys.js
 --------------
 * __<count>zf:__ Open the Zotero pane (if it is closed) and focus it.  If `<count>` is not given, focus the items pane.  For `<count>==1`, focus the search box.  For `<count>==2`, focus the collection pane (Mnemonic: "focus").
