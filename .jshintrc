@@ -15,5 +15,6 @@
 	"moz": true,
 	"sub": true,
 	"browser": true,
-	"devel": true
+	"devel": true,
+	"multistr": true
 }

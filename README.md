@@ -1,10 +1,10 @@
 Zoterodactyl
 ============
-Zoterodactyl is a set of Pentadactyl plugins that provide key mappings for [Zotero](http://www.zotero.org), so that common operations can be performed without entering passthrough mode.  `zotero_keys.js` provides mappings that work with basic Zotero.  `zutilo_keys.js` provides keys for the [Zutilo](https://github.com/willsALMANJ/Zutilo) plugin for Zotero.  
+Zoterodactyl is a set of Pentadactyl plugins that provide key mappings, commands, and hints for [Zotero](http://www.zotero.org), so that common operations can be performed without entering passthrough mode.  Some Zoterodactyl functions work with Zotero by itself, while others require the [Zutilo](https://github.com/willsALMANJ/Zutilo) plugin for Zotero.  
 
-__Note:__ the documentation below is currently a bit out of date. The most up to date documentation is contained in `:help plugins` inside Pentadactyl. All of the commands listed below still exist but they now are also available as ex commands for easy remapping. Once I find any way to convert Pentadactyl's documentation XML into markdown, this README file will be updated.
+__Note:__ the documentation below is currently a bit out of date. The most up to date documentation is contained in `:help plugins` inside Pentadactyl. All of the commands listed below still exist but they now are also available as ex commands for easy remapping. Once I find any way to convert Pentadactyl's documentation XML into markdown, this README file will be updated to mirror the documentation within Pentadactyl.
 
-zotero_keys.js
+Zotero functions
 --------------
 * __<count>zf:__ Open the Zotero pane (if it is closed) and focus it.  If `<count>` is not given, focus the items pane.  For `<count>==1`, focus the search box.  For `<count>==2`, focus the collection pane (Mnemonic: "focus").
 
@@ -28,7 +28,7 @@ zotero_keys.js
 
 * __zq:__ Use Zotero's [Quick Copy](http://www.zotero.org/support/creating_bibliographies) on selected items.
 
-zutilo_keys.js
+Zutilo functions
 --------------
 ### Key mappings ###
 * __zy:__ Copy selected Zotero items' tags to the clipboard (Mnemonic: "yank").
@@ -72,9 +72,9 @@ Keep in mind that in Firefox `<C-Space>` opens context menus.  So once you have 
 
 Install
 -------
-Install these plugins by copying them to the `~/.pentadactyl/plugins/` directory (or `%USERPROFILE%\pentadactyl\plugins` on Windows).  You have to create this directory if it does not exist. Any plugins in that directory will be loaded on start up. Plugins can also be loaded with the `:lpl` command.  If you modify the plugin and want to load it again, it may be necessary to use `:lpl!` to overwrite the previously loaded version.
+Install this plugin by copying it to the `~/.pentadactyl/plugins/` directory (or `%USERPROFILE%\pentadactyl\plugins` on Windows).  You have to create this directory if it does not exist. Any plugins in that directory will be loaded on start up. Plugins can also be loaded with the `:lpl` command.  If you modify the plugin and want to load it again, it may be necessary to use `:lpl!` to overwrite the previously loaded version.
 
-The plugins need to be in a `plugins` directory of a directory in the `runtimepath` setting. If you want to use a different directory than `~/.pentadactyl`, you can add an additional directory to the `runtimepath` setting and save the plugins in a `plugins` subdirectory of it.
+The plugin needs to be in a `plugins` directory of a directory in the `runtimepath` setting. If you want to use a different directory than `~/.pentadactyl`, you can add an additional directory to the `runtimepath` setting and save the plugin in a `plugins` subdirectory of it.
 
 Updates
 -------
