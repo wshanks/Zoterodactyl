@@ -1,0 +1,205 @@
+Zoterodactyl
+============
+Zoterodactyl implements a set of commands, hints, and key mappings for working with Zotero using Pentadactyl without entering passthrough mode. Some commands require the Zutilo add-on and are neither added to Pentadactyl nor listed in Pentadactyl's documentation when Zutilo is not active.
+
+Commands
+--------
+__:zoterofocus:__ Show or focus Zotero
+
+__zf:__ Executes
+
+:zoterofocus
+
+__:zoteroclose:__ Hide Zotero
+
+__zc:__ Executes
+
+:zoteroclose
+
+__:zoterosaveitem:__ Save item from page
+
+__zs:__ Executes
+
+:zoterosaveitem
+
+__:zoteronewitemmenu:__ Open new item menu
+
+__zN:__ Executes
+
+:zoteronewitemmenu
+
+__:zoteronewwebitem:__ Create website item for the current page
+
+__zw:__ Executes
+
+:zoteronewwebitem
+
+__:zoteronextitem:__ Select next item
+
+__J:__ Executes
+
+:zoteronextitem
+
+__:zoteropreviousitem:__ Select previous item
+
+__K:__ Executes
+
+:zoteropreviousitem
+
+__:zoteroshiftselectnextitem:__ Select next item (holding previous selections)
+
+__):__ Executes
+
+:zoteroshiftselectnextitem
+
+__:zoteroshiftselectpreviousitem:__ Select next item (holding previous selections)
+
+__(:__ Executes
+
+:zoteroshiftselectpreviousitem
+
+__:zoterotoggleitem:__ Toggle current Zotero item's attachments open/closed
+
+__zT:__ Executes
+
+:zoterotoggleitem
+
+__:zoteroquickcopy:__ QuickCopy selected items to clipboard
+
+__zq:__ Executes
+
+:zoteroquickcopy
+
+__:zoteroyanktags:__ Copy ("yank") Zotero item tags
+
+Note: Zutilo required
+
+__zy:__ Executes
+
+:zoteroyanktags
+
+__:zoteropastetags:__ Paste Zotero item tags
+
+Note: Zutilo required
+
+__zp:__ Executes
+
+:zoteropastetags
+
+__:zoterocopycreators:__ Copy Zotero item creators
+
+Note: Zutilo required
+
+__zC:__ Executes
+
+:zoterocopycreators
+
+__:zoteroshowpaths:__ Show attachment paths
+
+Note: Zutilo required
+
+__zP:__ Executes
+
+:zoteroshowpaths
+
+__:zoteromodifypaths:__ Modify attachment paths
+
+Note: Zutilo required
+
+__zM:__ Executes
+
+:zoteromodifypaths
+
+__:zoterorelateitems:__ Relate Zotero items
+
+Note: Zutilo required
+
+__zR:__ Executes
+
+:zoterorelateitems
+
+__:zoteroedititem:__ Edit item info
+
+Note: Zutilo required
+
+__ze:__ Executes
+
+:zoteroedititem
+
+__:zoteroaddnote:__ Add note to item
+
+Note: Zutilo required
+
+__zn:__ Executes
+
+:zoteroaddnote
+
+__:zoteroaddtag:__ Add tag to item
+
+Note: Zutilo required
+
+__zt:__ Executes
+
+:zoteroaddtag
+
+__:zoterorelateitemsdialog:__ Open relate items dialog
+
+Note: Zutilo required
+
+__z-R:__ Executes
+
+:zoterorelateitemsdialog
+
+__:zoteroattachpage:__ Attach current page to current Zotero item
+
+Note: Zutilo required
+
+__za:__ Executes
+
+:zoteroattachpage
+
+__:zoterosaveitemopposite:__ Save item from page (opposite attachment handling from Zotero preference setting)
+
+Note: Zutilo required
+
+__zS:__ Executes
+
+:zoterosaveitemopposite
+
+__:zoterosaveitemwithattachments:__ Save item from page with attachments (regardless of Zotero preference)
+
+Note: Zutilo required
+
+__z-s:__ Executes
+
+:zoterosaveitemwithattachments
+
+__:zoterosaveitemnoattachments:__ Save item from page without attachments (regardless of Zotero preference)
+
+Note: Zutilo required
+
+__z-S:__ Executes
+
+:zoterosaveitemnoattachments
+
+__;z:__ Attach link target to current Zotero item
+
+Note: Zutilo required
+
+Notes
+-----
+Pentadactyl catches some keystrokes (e.g. `<Down>` and `<Up>`), preventing them from being passed to Zotero (e.g. to select the next or previous item in the case of `<Down>` and `<Up>`).  The Zoterodactyl plugins try to create workarounds for these keystrokes (e.g. `J` and `K` for `<Down>` and `<Up>`).  Other keystrokes (e.g. `<Return>` and `<Del>`) are passed to Zotero when it has focus (e.g. so typing `zf` to focus Zotero allows one to open the currently selected item by pressing `<Return>` and to delete it by pressing `<Del>`).
+
+Two of Zoterodactyl's key mappings conflict with default Pentadactyl key mappings (`zM` and `zR`).  Pentadactyl provides alternate default key mappings that can be used instead (`ZM` and `ZR`).
+
+Keep in mind that in Firefox `<C-Space>` opens context menus.  So once you have used `zf` to focus Zotero and `J` and `K` to navigate items, you can use `<C-Space>` and the `<Up>` and `<Down>` keys to select other operations on items not given mappings above (e.g. "Open in External Viewer" or "Show File").
+
+Install
+-------
+Install this plugin by copying it to the `~/.pentadactyl/plugins/` directory (or `%USERPROFILE%\pentadactyl\plugins` on Windows).  You have to create this directory if it does not exist. Any plugins in that directory will be loaded on start up. Plugins can also be loaded with the `:lpl` command.  If you modify the plugin and want to load it again, it may be necessary to use `:lpl!` to overwrite the previously loaded version.
+
+The plugin needs to be in a `plugins` directory of a directory in the `runtimepath` setting. If you want to use a different directory than `~/.pentadactyl`, you can add an additional directory to the `runtimepath` setting and save the plugin in a `plugins` subdirectory of it.
+
+Updates
+-------
+So far, these are the commands I have found it useful to have key mappings for.  If you think there are other commands that other users would find useful, please suggest them by contacting me or opening issue on GitHub.
