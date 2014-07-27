@@ -4,9 +4,9 @@
 /* global CommandExMode,group,CommandOption,modes,hints */
 var INFO =
 ['plugin', { name: 'zoterodactyl',
-             version: '2.0',
+             version: '2.1a',
              href: 'https://github.com/willsALMANJ/Zoterodactyl',
-             summary: 'Key mappings for Zotero',
+             summary: 'Zoterodactyl',
              xmlns: 'dactyl' },
     ['author', { href: 'https://github.com/willsALMANJ' },
         'Will Shanks'],
@@ -14,7 +14,7 @@ var INFO =
         'Mozilla Public License 2.0'],
     ['project', { name: 'Pentadactyl', 'min-version': '1.0' }],
     ['p', {},
-        'This plugin implements a set of commands, hints, and key mappings ',
+        'Zoterodactyl implements a set of commands, hints, and key mappings ',
 		'for working with Zotero using Pentadactyl without entering ',
 		'passthrough mode. Some commands require the Zutilo add-on and are ', 
 		'neither added to Pentadactyl nor listed in Pentadactyl\'s ',
@@ -387,8 +387,8 @@ Actions['zoteroattachpage'] = {
 	}
 };
 Actions['zoterosaveitemopposite'] = {
-	description: 'Save item from page (opposite attachment handling from \
-		Zotero preference setting)', 
+	description: 'Save item from page (opposite attachment handling from ' +
+		'Zotero preference setting)', 
 	context: LOAD_CONTEXT.ZUTILO_ACTIVE,
 	mappings: [
 		{
@@ -399,8 +399,8 @@ Actions['zoterosaveitemopposite'] = {
 	command: function() {ZutiloChrome.firefoxOverlay.scrapeThisPage();}
 };
 Actions['zoterosaveitemwithattachments'] = {
-	description: 'Save item from page with attachments (regardless of Zotero \
-		preference)', 
+	description: 'Save item from page with attachments (regardless of ' +
+		'Zotero preference)', 
 	context: LOAD_CONTEXT.ZUTILO_ACTIVE,
 	mappings: [
 		{
@@ -413,8 +413,8 @@ Actions['zoterosaveitemwithattachments'] = {
 	}
 };
 Actions['zoterosaveitemnoattachments'] = {
-	description: 'Save item from page without attachments (regardless of \
-		Zotero preference)', 
+	description: 'Save item from page without attachments (regardless of ' +
+		'Zotero preference)', 
 	context: LOAD_CONTEXT.ZUTILO_ACTIVE,
 	mappings: [
 		{
@@ -446,6 +446,14 @@ zhints=zhints.concat({hint: 'z',
  * above.
  */
 
+/* Concat description paragraphs */
+function extendText(textArray,newTextArray) {
+	if (textArray.length===3&&textArray[0]==='p') {
+		textArray=[textArray,newTextArray];
+	} else {
+		textArray=textArray.concat(newTextArray);
+	}
+}
 /* Define the function called by Pentadactyl when a mapping is called. Either 
  * Ex mode is opened starting with the command or the command is called.
  *
@@ -527,9 +535,6 @@ function addAction(action) {
 	}
 	
 	let tagStr=':'+action;
-	if ('mappings' in Actions[action]) {
-		tagStr+=' '+Actions[action].mappings[0].keys.join(' ');
-	}
 	let specVal;
 	if ('argName' in Actions[action]) {
 		specVal=['spec',{},':'+action+' ',
@@ -541,14 +546,27 @@ function addAction(action) {
 	if ('extraDescription' in Actions[action]) {
 		description=description.concat(Actions[action].extraDescription());
 	}
+
 	if (Actions[action].context === LOAD_CONTEXT.ZUTILO_ACTIVE) {
-		description=description.concat([['p',{},'Note: Zutilo required']]);
+		description=[description,['p',{},'Note: Zutilo required']];
 	}
 	INFO.push(['item', {},
 		['tags', {}, tagStr],
 		specVal,
 		['description', {},
 			description]]);
+
+	if ('mappings' in Actions[action]) {
+		tagStr=Actions[action].mappings[0].keys.join(' ');
+		specVal=tagStr;
+		description=['p',{},'Executes ',['ex',{},':'+action]];
+
+		INFO.push(['item', {},
+			['tags', {}, tagStr],
+			['spec',{},specVal],
+			['description', {},
+				description]]);
+	}
 }
 
 /* Add a hint and its documentation to Pentadactyl */
@@ -557,7 +575,7 @@ function addHint(zhint) {
 
 	let description=['p',{},zhint.description];
 	if (zhint.context === LOAD_CONTEXT.ZUTILO_ACTIVE) {
-		description=description.concat([['p',{},'Note: Zutilo required']]);
+		description=[description,['p',{},'Note: Zutilo required']];
 	}
 	INFO.push(['item', {},
         ['tags', {}, ';' + zhint.hint],

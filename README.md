@@ -1,66 +1,140 @@
 Zoterodactyl
 ============
-Zoterodactyl is a set of Pentadactyl plugins that provide key mappings, commands, and hints for [Zotero](http://www.zotero.org), so that common operations can be performed without entering passthrough mode.  Some Zoterodactyl functions work with Zotero by itself, while others require the [Zutilo](https://github.com/willsALMANJ/Zutilo) plugin for Zotero.  
+Zoterodactyl implements a set of commands, hints, and key mappings for working with Zotero using Pentadactyl without entering passthrough mode. Some commands require the Zutilo add-on and are neither added to Pentadactyl nor listed in Pentadactyl's documentation when Zutilo is not active.
 
-__Note:__ the documentation below is currently a bit out of date. The most up to date documentation is contained in `:help plugins` inside Pentadactyl. All of the commands listed below still exist but they now are also available as ex commands for easy remapping. Once I find any way to convert Pentadactyl's documentation XML into markdown, this README file will be updated to mirror the documentation within Pentadactyl.
+Commands
+--------
+__:zoterofocus:__ Show or focus Zotero
 
-Zotero functions
---------------
-* __<count>zf:__ Open the Zotero pane (if it is closed) and focus it.  If `<count>` is not given, focus the items pane.  For `<count>==1`, focus the search box.  For `<count>==2`, focus the collection pane (Mnemonic: "focus").
+__zf:__ Executes `:zoterofocus`
 
-* __zc:__ Hide the Zotero pane (Mnemonic: "close").
+__:zoteroclose:__ Hide Zotero
 
-* __zs:__ Create an item based on the content of the current page (Mnemonic: "save").
+__zc:__ Executes `:zoteroclose`
 
-* __zN:__ Open the new item menu (to select the item type to create).
+__:zoterosaveitem:__ Save item from page
 
-* __zw:__ Create a website item for the current page.
+__zs:__ Executes `:zoterosaveitem`
 
-* __J:__ Select the next item in the collection (equivalent to `<Up>` in passthrough mode.).
+__:zoteronewitemmenu:__ Open new item menu
 
-* __K:__ Select the previous item in the collection (equivalent to `<Down>` in passthrough mode.).
+__zN:__ Executes `:zoteronewitemmenu`
 
-* __):__ Select the next item in the collection while holding previous selection (equivalent to `<S-Up>` in passthrough mode.).
+__:zoteronewwebitem:__ Create website item for the current page
 
-* __(:__ Select the previous item in the collection while holding previous selection (equivalent to `<S-Down>` in passthrough mode.).
+__zw:__ Executes `:zoteronewwebitem`
 
-* __zT:__ Toggle current Zotero item's children (attachments and notes) open and closed.
+__:zoteronextitem:__ Select next item
 
-* __zq:__ Use Zotero's [Quick Copy](http://www.zotero.org/support/creating_bibliographies) on selected items.
+__J:__ Executes `:zoteronextitem`
 
-Zutilo functions
---------------
-### Key mappings ###
-* __zy:__ Copy selected Zotero items' tags to the clipboard (Mnemonic: "yank").
+__:zoteropreviousitem:__ Select previous item
 
-* __zp:__ Paste tags from clipboard to selected Zotero items.
+__K:__ Executes `:zoteropreviousitem`
 
-* __zC:__ Copy selected Zotero items' creators to the clipboard.
+__:zoteroshiftselectnextitem:__ Select next item (holding previous selections)
 
-* __zP:__ Show paths of all attachments of selected Zotero items.
+__):__ Executes `:zoteroshiftselectnextitem`
 
-* __zM:__ Modify paths of all attachments of selected Zotero items.
+__:zoteroshiftselectpreviousitem:__ Select next item (holding previous selections)
 
-* __zR:__ Relate selected Zotero items.
+__(:__ Executes `:zoteroshiftselectpreviousitem`
 
-* __ze:__ Focus the info pane of selected Zotero item and then focus its first text box (Mnemonic: "edit").
+__:zoterotoggleitem:__ Toggle current Zotero item's attachments open/closed
 
-* __zn:__ Add a new note to the current Zotero item.
+__zT:__ Executes `:zoterotoggleitem`
 
-* __zt:__ Focus the tags pane of selected Zotero item and then focus a new tag entry box.
+__:zoteroquickcopy:__ QuickCopy selected items to clipboard
 
-* __z-R:__ Open the relate items dialog window for the currently selected Zotero item.
+__zq:__ Executes `:zoteroquickcopy`
 
-* __za:__ Attach the current page to the currently selected Zotero item.
+__:zoteroyanktags:__ Copy ("yank") Zotero item tags
 
-* __zS:__ Create an item based on the content of the current page, using the opposite behavior for attaching associated files as is set in Zotero's preferences.
+Note: Zutilo required
 
-* __z-s:__ Create an item based on the content of the current page and attach associated files regardless of Zotero's preferences.
+__zy:__ Executes `:zoteroyanktags`
 
-* __z-S:__ Create an item based on the content of the current page and do not attach associated files regardless of Zotero's preferences.
+__:zoteropastetags:__ Paste Zotero item tags
 
-### Hints ###
-* __z:__ Attach link target to the currently selected Zotero item.
+Note: Zutilo required
+
+__zp:__ Executes `:zoteropastetags`
+
+__:zoterocopycreators:__ Copy Zotero item creators
+
+Note: Zutilo required
+
+__zC:__ Executes `:zoterocopycreators`
+
+__:zoteroshowpaths:__ Show attachment paths
+
+Note: Zutilo required
+
+__zP:__ Executes `:zoteroshowpaths`
+
+__:zoteromodifypaths:__ Modify attachment paths
+
+Note: Zutilo required
+
+__zM:__ Executes `:zoteromodifypaths`
+
+__:zoterorelateitems:__ Relate Zotero items
+
+Note: Zutilo required
+
+__zR:__ Executes `:zoterorelateitems`
+
+__:zoteroedititem:__ Edit item info
+
+Note: Zutilo required
+
+__ze:__ Executes `:zoteroedititem`
+
+__:zoteroaddnote:__ Add note to item
+
+Note: Zutilo required
+
+__zn:__ Executes `:zoteroaddnote`
+
+__:zoteroaddtag:__ Add tag to item
+
+Note: Zutilo required
+
+__zt:__ Executes `:zoteroaddtag`
+
+__:zoterorelateitemsdialog:__ Open relate items dialog
+
+Note: Zutilo required
+
+__z-R:__ Executes `:zoterorelateitemsdialog`
+
+__:zoteroattachpage:__ Attach current page to current Zotero item
+
+Note: Zutilo required
+
+__za:__ Executes `:zoteroattachpage`
+
+__:zoterosaveitemopposite:__ Save item from page (opposite attachment handling from Zotero preference setting)
+
+Note: Zutilo required
+
+__zS:__ Executes `:zoterosaveitemopposite`
+
+__:zoterosaveitemwithattachments:__ Save item from page with attachments (regardless of Zotero preference)
+
+Note: Zutilo required
+
+__z-s:__ Executes `:zoterosaveitemwithattachments`
+
+__:zoterosaveitemnoattachments:__ Save item from page without attachments (regardless of Zotero preference)
+
+Note: Zutilo required
+
+__z-S:__ Executes `:zoterosaveitemnoattachments`
+
+__;z:__ Attach link target to current Zotero item
+
+Note: Zutilo required
 
 Notes
 -----
