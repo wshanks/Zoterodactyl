@@ -20,7 +20,7 @@ def clean_text(text_limb):
             ex_tag.insert_before('`' + ex_tag.get_text() + '`')
             ex_tag.decompose()
 
-        clean_strings.append(p_tag.get_text('', strip=True))
+        clean_strings.append(p_tag.get_text(''))
 
     return '\n\n'.join(clean_strings)
 
