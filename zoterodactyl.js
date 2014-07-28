@@ -22,7 +22,7 @@ var INFO =
 
 Components.utils.import('resource://gre/modules/AddonManager.jsm');
 
-const LOAD_CONTEXT = {
+var LOAD_CONTEXT = {
 	ALWAYS: 0, // Load command always
 	ZUTILO_ACTIVE: 1, // Load command only if Zutilo is active
 	ZUTILO_INACTIVE: 2 // Load command only if Zutilo not active
