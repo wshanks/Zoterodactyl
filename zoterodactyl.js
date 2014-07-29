@@ -1,4 +1,6 @@
 'use strict';
+// TODO: document how count and arguments work with comments for future reference
+// TODO: Alternate styles for QuickCopy (requires dynamic argument values)
 /* global Components,AddonManager */
 /* global ZoteroOverlay,Zotero_Browser,ZoteroPane,ZutiloChrome */
 /* global CommandExMode,group,CommandOption,modes,hints */
@@ -22,10 +24,17 @@ var INFO =
 
 Components.utils.import('resource://gre/modules/AddonManager.jsm');
 
-const LOAD_CONTEXT = {
+var LOAD_CONTEXT = {
 	ALWAYS: 0, // Load command always
 	ZUTILO_ACTIVE: 1, // Load command only if Zutilo is active
 	ZUTILO_INACTIVE: 2 // Load command only if Zutilo not active
+};
+
+var ARG_KIND = {
+	NOARG: 0, // Option takes no argument
+	FIXED: 1, // Option takes one of a fixed set of arguments
+	DYNAMIC: 2, // Option takes an argument from a set generated at call time
+	ARBITRARY: 3 // Option takes an arbitrary argument
 };
 
 /* Actions: object containing all actions (commands and mappings) to be added 
@@ -44,8 +53,11 @@ Actions['zoterofocus'] = {
 		}
 	],
 	count: {
-		descriptions: ['Focus search box','Focus Collections tree',
-			'Focus Items tree']
+		argList: [
+			[1, 'Focus search box'],
+			[2, 'Focus Collections tree'],
+			[3, 'Focus Items tree']
+		]
 	},
 	command: function(args) {
 		ZoteroOverlay.toggleDisplay(true);
@@ -97,19 +109,6 @@ Actions['zoteroclose'] = {
 	extraInfo: {
 		argCount: 0
 	}
-};
-Actions['zoterosaveitem'] = {
-	description: 'Save item from page', 	
-	context: LOAD_CONTEXT.ALWAYS,
-	mappings: [
-		{
-			keys: ['zs'],
-			openExMode: false
-		}
-	],
-	/* jshint -W106 */
-	command: function() {Zotero_Browser.scrapeThisPage();}
-	/* jshint +W106 */
 };
 Actions['zoteronewitemmenu'] = {
 	description: 'Open new item menu', 
@@ -386,47 +385,78 @@ Actions['zoteroattachpage'] = {
 			window.content.location.href);
 	}
 };
-Actions['zoterosaveitemopposite'] = {
-	description: 'Save item from page (opposite attachment handling from ' +
-		'Zotero preference setting)', 
-	context: LOAD_CONTEXT.ZUTILO_ACTIVE,
+
+Actions['zoterosaveitem'] = {
+	description: 'Save item from page', 	
+	context: LOAD_CONTEXT.ALWAYS,
+	options: [
+		{
+			names: ['-attachments', '-a'],
+			description: 'Specify how attachments are handled',
+			argKind: ARG_KIND.FIXED,
+			type: CommandOption.STRING,
+			argList: [
+				['default', 'Use current preference setting for attachements'],
+				['opposite', 'Use opposite of current preference setting ' +
+					'for attachments'],
+				['add', 'Add attachments regardless of preference setting'],
+				['skip', 'Skip attachments regardless of preference setting']
+			]
+		}
+	],
 	mappings: [
+		{
+			keys: ['zs'],
+			openExMode: false
+		},
 		{
 			keys: ['zS'],
-			openExMode: false
-		}
-	],
-	command: function() {ZutiloChrome.firefoxOverlay.scrapeThisPage();}
-};
-Actions['zoterosaveitemwithattachments'] = {
-	description: 'Save item from page with attachments (regardless of ' +
-		'Zotero preference)', 
-	context: LOAD_CONTEXT.ZUTILO_ACTIVE,
-	mappings: [
+			openExMode: false,
+			args: {
+				'-attachments': 'opposite'
+			},
+			description: 'Save item with opposite attachment handling'
+		},
 		{
 			keys: ['z-s'],
-			openExMode: false
-		}
-	],
-	command: function() {
-		ZutiloChrome.firefoxOverlay.scrapeThisPage(false, true);
-	}
-};
-Actions['zoterosaveitemnoattachments'] = {
-	description: 'Save item from page without attachments (regardless of ' +
-		'Zotero preference)', 
-	context: LOAD_CONTEXT.ZUTILO_ACTIVE,
-	mappings: [
+			openExMode: false,
+			args: {
+				'-attachments': 'add'
+			},
+			description: 'Save item with attachments'
+		},
 		{
 			keys: ['z-S'],
-			openExMode: false
+			openExMode: false,
+			args: {
+				'-attachments': 'skip'
+			},
+			description: 'Save item without attachments'
 		}
 	],
-	command: function() {
-		ZutiloChrome.firefoxOverlay.scrapeThisPage(false, false);
+	command: function(args) {
+		if (!(args['-attachments'])) {
+			args['-attachments'] = 'default';
+		}
+
+		switch (args['-attachments']) {
+			case 'default':
+				// jshint -W106
+				Zotero_Browser.scrapeThisPage();
+				// jshint +W106
+				break;
+			case 'opposite':
+				ZutiloChrome.firefoxOverlay.scrapeThisPage();
+				break;
+			case 'add':
+				ZutiloChrome.firefoxOverlay.scrapeThisPage(false, true);
+				break;
+			case 'skip':
+				ZutiloChrome.firefoxOverlay.scrapeThisPage(false, false);
+				break;
+		}
 	}
 };
-
 /*
  * Array of hints to add to Pentadactyl
  */
@@ -446,7 +476,8 @@ zhints=zhints.concat({hint: 'z',
  * above.
  */
 
-/* Concat description paragraphs */
+/* Comment out extendText until it is used
+// Concat description paragraphs
 function extendText(textArray,newTextArray) {
 	if (textArray.length===3&&textArray[0]==='p') {
 		textArray=[textArray,newTextArray];
@@ -454,6 +485,7 @@ function extendText(textArray,newTextArray) {
 		textArray=textArray.concat(newTextArray);
 	}
 }
+*/
 /* Define the function called by Pentadactyl when a mapping is called. Either 
  * Ex mode is opened starting with the command or the command is called.
  *
@@ -467,6 +499,13 @@ function mappingFunction(action, mapping) {
 			let cExMode = new CommandExMode();
 			cExMode.open(action+' ');
 		} else {
+			if (mapping.args) {
+				for (let arg in mapping.args) {
+						if (mapping.args.hasOwnProperty(arg)) {
+							args[arg] = mapping.args[arg];	
+						}
+				}
+			}
 			Actions[action].command(args);
 		}
 	};
@@ -475,8 +514,14 @@ function mappingFunction(action, mapping) {
 function addMappings(action) {
 	for (let i=0; i<Actions[action].mappings.length; i++) {
 		let mapping= Actions[action].mappings[i];
+		let description;
+		if ('description' in mapping) {
+			description = mapping.description;
+		} else {
+			description = Actions[action].description;
+		}
 		group.mappings.add([modes.NORMAL], mapping.keys,
-			Actions[action].description,
+			description,
 			mappingFunction(action, mapping),
 			{}
 		);
@@ -493,14 +538,9 @@ function defaultArgDescription(argName, defaultStr) {
  * command. It will need to be modified to work with other options when they 
  * are added. 
  */
-function zCompleter(action) {
+function zCompleter(argList) {
 	return function (context) {
-		let completions = [];
-		for (let i=0; i<Actions[action].count.descriptions.length; i++) {
-			completions.push(
-				[i+1,Actions[action].count.descriptions[i]]);
-		}
-		context.completions = completions;
+		context.completions = argList;
 	};
 }
 /* Add a command and its mappings and its documentation to Pentadactyl.
@@ -508,6 +548,36 @@ function zCompleter(action) {
 function addAction(action) {
 	if (!('extraInfo' in Actions[action])) {
 		Actions[action].extraInfo = {};
+	}
+
+	if ('options' in Actions[action]) {
+		if (!('options' in Actions[action].extraInfo)) {
+			Actions[action].extraInfo.options = [];
+		}
+
+		for (let idx=0; idx<Actions[action].options.length; idx++) {
+			let optionSpec = Actions[action].options[idx];
+			let type;
+			if (optionSpec.argKind === ARG_KIND.NOARG) {
+				type = CommandOption.NOARG;
+			} else {
+				type = optionSpec.type;
+			}
+
+			let option = {
+				names: optionSpec.names,
+				description: optionSpec.description,
+				type: type
+			};
+
+			if (optionSpec.argKind === ARG_KIND.FIXED) {
+				option.completer = zCompleter(optionSpec.argList);
+			}
+
+			// TODO: add dynamic completer when needed
+
+			Actions[action].extraInfo.options.push(option);
+		}
 	}
 	
 	if ('count' in Actions[action]) {
@@ -520,7 +590,7 @@ function addAction(action) {
 				names: ['-n'],
 				description: 'Quick modes',
 				type: CommandOption.INT,
-				completer: zCompleter(action)
+				completer: zCompleter(Actions[action].count.argList)
 			});
 	}	
 	
@@ -557,15 +627,28 @@ function addAction(action) {
 			description]]);
 
 	if ('mappings' in Actions[action]) {
-		tagStr=Actions[action].mappings[0].keys.join(' ');
-		specVal=tagStr;
-		description=['p',{},'Executes ',['ex',{},':'+action]];
+		for (let i=0; i<Actions[action].mappings.length; i++) {
+			let mapping = Actions[action].mappings[i];
+			tagStr=mapping.keys.join(' ');
+			specVal=tagStr;
 
-		INFO.push(['item', {},
-			['tags', {}, tagStr],
-			['spec',{},specVal],
-			['description', {},
+			let exStr = ':'+action;
+			if ('args' in mapping) {
+				for (let arg in mapping.args) {
+					if (mapping.args.hasOwnProperty(arg)) {
+						exStr += ' ' + arg + ' ' + mapping.args[arg];
+					}
+				}
+			}
+
+			description=['p',{},'Executes ',['ex',{},exStr]];
+
+			INFO.push(['item', {},
+				['tags', {}, tagStr],
+				['spec',{},specVal],
+				['description', {},
 				description]]);
+		}
 	}
 }
 
