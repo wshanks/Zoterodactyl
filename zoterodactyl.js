@@ -1,4 +1,5 @@
 'use strict';
+// TODO: Add information about command options and their arguments to Pentadactyl help
 // TODO: document how count and arguments work with comments for future reference
 // TODO: Alternate styles for QuickCopy (requires dynamic argument values)
 /* global Components,AddonManager */
