@@ -12,10 +12,6 @@ __:zoteroclose:__ Hide Zotero
 
 __zc:__ Executes `:zoteroclose`
 
-__:zoterosaveitem:__ Save item from page
-
-__zs:__ Executes `:zoterosaveitem`
-
 __:zoteronewitemmenu:__ Open new item menu
 
 __zN:__ Executes `:zoteronewitemmenu`
@@ -114,23 +110,15 @@ Note: Zutilo required
 
 __za:__ Executes `:zoteroattachpage`
 
-__:zoterosaveitemopposite:__ Save item from page (opposite attachment handling from Zotero preference setting)
+__:zoterosaveitem:__ Save item from page
 
-Note: Zutilo required
+__zs:__ Executes `:zoterosaveitem`
 
-__zS:__ Executes `:zoterosaveitemopposite`
+__zS:__ Executes `:zoterosaveitem -attachments opposite`
 
-__:zoterosaveitemwithattachments:__ Save item from page with attachments (regardless of Zotero preference)
+__z-s:__ Executes `:zoterosaveitem -attachments add`
 
-Note: Zutilo required
-
-__z-s:__ Executes `:zoterosaveitemwithattachments`
-
-__:zoterosaveitemnoattachments:__ Save item from page without attachments (regardless of Zotero preference)
-
-Note: Zutilo required
-
-__z-S:__ Executes `:zoterosaveitemnoattachments`
+__z-S:__ Executes `:zoterosaveitem -attachments skip`
 
 __;z:__ Attach link target to current Zotero item
 
