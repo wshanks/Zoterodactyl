@@ -1,6 +1,8 @@
 Zoterodactyl
 ============
-Zoterodactyl implements a set of commands, hints, and key mappings for working with Zotero using Pentadactyl without entering passthrough mode. Some commands require the Zutilo add-on and are neither added to Pentadactyl nor listed in Pentadactyl's documentation when Zutilo is not active.
+Zoterodactyl implements a set of commands, hints, and key mappings for working with Zotero using Pentadactyl without entering passthrough mode.
+
+__Note:__ Some commands require the [Zutilo](https://addons.mozilla.org/en-US/firefox/addon/zutilo-utility-for-zotero/) add-on and are neither added to Pentadactyl nor listed in Pentadactyl's documentation when Zutilo is not active. For the most recently updated and complete version of the documentation, see the [Zoterdactyl GitHub page](https://github.com/willsALMANJ/Zoterodactyl).
 
 Commands
 --------
@@ -138,6 +140,12 @@ Install this plugin by copying it to the `~/.pentadactyl/plugins/` directory (or
 
 The plugin needs to be in a `plugins` directory of a directory in the `runtimepath` setting. If you want to use a different directory than `~/.pentadactyl`, you can add an additional directory to the `runtimepath` setting and save the plugin in a `plugins` subdirectory of it.
 
+Zutilo
+------
+Zutilo is a Firefox add-on by the same author as Zoterodactyl. It provides keyboard shortcuts to existing Zotero functions as well as some new functions and GUI elements for accessing them. In order to avoid duplication of code, Zoterodactyl calls Zutilo functions where possible. Through Zutilo's preferences, it is possible to disable all of Zutilo's GUI elements if you just want to use Zoterodactyl without any other effects from having Zutilo installed (other than a "Zutilo preferences" entry in the Zotero gear icon menu).
+
+Any Zoterodactyl functionality that simply wraps base Zotero functions is implemented independent of Zutilo. In order to avoid clutter and broken functions, the Zutilo-dependent functions are not defined when Zoterodactyl loads if it does not detect that Zutilo is enabled. If for some reason you are toggling Zutilo's enabled status, you can update Zoterodactyl either by doing a `:rehash` in Pentadactyl or forcing Pentadactyl to reload all plugins with `:lpl!`.
+
 Updates
 -------
-So far, these are the commands I have found it useful to have key mappings for.  If you think there are other commands that other users would find useful, please suggest them by contacting me or opening issue on GitHub.
+Currently planned upcoming features are generally listed on [the wiki](https://github.com/willsALMANJ/Zoterodactyl/wiki) or [the issues section](https://github.com/willsALMANJ/Zoterodactyl/issues) of [Zoterodactyl's GitHub page](https://github.com/willsALMANJ/Zoterodactyl). If you think there are other commands that other users would find useful, please suggest them by contacting me or opening issue on GitHub.

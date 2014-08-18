@@ -19,3 +19,5 @@ cat introduction.md >> README.md
 cat commands_header.md >> README.md
 cat commands.md >> README.md
 cat footer.md >> README.md
+rm introduction.md
+rm commands.md

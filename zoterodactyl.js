@@ -19,9 +19,19 @@ var INFO =
     ['p', {},
         'Zoterodactyl implements a set of commands, hints, and key mappings ',
 		'for working with Zotero using Pentadactyl without entering ',
-		'passthrough mode. Some commands require the Zutilo add-on and are ', 
-		'neither added to Pentadactyl nor listed in Pentadactyl\'s ',
-		'documentation when Zutilo is not active.']];
+		'passthrough mode.'],
+	['p', {},
+		['em',{},'Note:'], ' Some commands require the ',
+		['link',
+			{topic: 'https://addons.mozilla.org/en-US/firefox/addon/zutilo-utility-for-zotero/'},
+			'Zutilo'],
+		' add-on and are neither added to Pentadactyl nor listed in ',
+		'Pentadactyl\'s documentation when Zutilo is not active. For the ',
+		'most recently updated and complete version of the Zoterodactyl ',
+		'documentation, see the ', 
+		['link', {topic: 'https://github.com/willsALMANJ/Zoterodactyl'},
+			'Zoterdactyl GitHub page'],
+		'.']];
 
 Components.utils.import('resource://gre/modules/AddonManager.jsm');
 
