@@ -1,4 +1,5 @@
 'use strict';
+// TODO: Don't enable zoterosaveitem -attachments option if Zutilo is not enabled: make option and mappings Zutilo-dependent
 // TODO: Add information about command options and their arguments to Pentadactyl help
 // TODO: document how count and arguments work with comments for future reference
 // TODO: Alternate styles for QuickCopy (requires dynamic argument values)
