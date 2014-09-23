@@ -1,5 +1,4 @@
 'use strict';
-// TODO: Don't enable zoterosaveitem -attachments option if Zutilo is not enabled: make option and mappings Zutilo-dependent
 // TODO: Add information about command options and their arguments to Pentadactyl help
 // TODO: document how count and arguments work with comments for future reference
 // TODO: Alternate styles for QuickCopy (requires dynamic argument values)
@@ -405,6 +404,7 @@ Actions['zoterosaveitem'] = {
 		{
 			names: ['-attachments', '-a'],
 			description: 'Specify how attachments are handled',
+			context: LOAD_CONTEXT.ZUTILO_ACTIVE,
 			argKind: ARG_KIND.FIXED,
 			type: CommandOption.STRING,
 			argList: [
@@ -498,6 +498,28 @@ function extendText(textArray,newTextArray) {
 	}
 }
 */
+
+/* Check that the state of Firefox matches the current state loading given 
+ * command or hint. Mainly this makes sure Zutilo-dependent commands are not 
+ * loaded when Zutilo is not installed or enabled.
+ */
+function validateContext(context, zutiloActive) {
+	let contextValid = false;
+	switch (context) {
+		case LOAD_CONTEXT.ALWAYS:
+			contextValid = true;
+			break;
+		case LOAD_CONTEXT.ZUTILO_ACTIVE:
+			contextValid = zutiloActive;
+			break;
+		case LOAD_CONTEXT.ZUTILO_INACTIVE:
+			contextValid = !zutiloActive;
+			break;
+	}
+
+	return contextValid;
+}
+
 /* Define the function called by Pentadactyl when a mapping is called. Either 
  * Ex mode is opened starting with the command or the command is called.
  *
@@ -557,7 +579,7 @@ function zCompleter(argList) {
 }
 /* Add a command and its mappings and its documentation to Pentadactyl.
  */
-function addAction(action) {
+function addAction(action, zutiloActive) {
 	if (!('extraInfo' in Actions[action])) {
 		Actions[action].extraInfo = {};
 	}
@@ -569,26 +591,28 @@ function addAction(action) {
 
 		for (let idx=0; idx<Actions[action].options.length; idx++) {
 			let optionSpec = Actions[action].options[idx];
-			let type;
-			if (optionSpec.argKind === ARG_KIND.NOARG) {
-				type = CommandOption.NOARG;
-			} else {
-				type = optionSpec.type;
+			if (validateContext(optionSpec.context, zutiloActive)) {
+				let type;
+				if (optionSpec.argKind === ARG_KIND.NOARG) {
+					type = CommandOption.NOARG;
+				} else {
+					type = optionSpec.type;
+				}
+
+				let option = {
+					names: optionSpec.names,
+					description: optionSpec.description,
+					type: type
+				};
+
+				if (optionSpec.argKind === ARG_KIND.FIXED) {
+					option.completer = zCompleter(optionSpec.argList);
+				}
+
+				// TODO: add dynamic completer when needed
+
+				Actions[action].extraInfo.options.push(option);
 			}
-
-			let option = {
-				names: optionSpec.names,
-				description: optionSpec.description,
-				type: type
-			};
-
-			if (optionSpec.argKind === ARG_KIND.FIXED) {
-				option.completer = zCompleter(optionSpec.argList);
-			}
-
-			// TODO: add dynamic completer when needed
-
-			Actions[action].extraInfo.options.push(option);
 		}
 	}
 	
@@ -679,27 +703,6 @@ function addHint(zhint) {
            	description]]);
 }
 
-/* Check that the state of Firefox matches the current state loading given 
- * command or hint. Mainly this makes sure Zutilo-dependent commands are not 
- * loaded when Zutilo is not installed or enabled.
- */
-function validateContext(context, zutiloActive) {
-	let contextValid = false;
-	switch (context) {
-		case LOAD_CONTEXT.ALWAYS:
-			contextValid = true;
-			break;
-		case LOAD_CONTEXT.ZUTILO_ACTIVE:
-			contextValid = zutiloActive;
-			break;
-		case LOAD_CONTEXT.ZUTILO_INACTIVE:
-			contextValid = !zutiloActive;
-			break;
-	}
-
-	return contextValid;
-}
-
 /* Actually process all of the actions and hints. Processing everything has to 
  * be inside an AddonManager callback since it depends on the state of Zutilo. 
  */
@@ -712,7 +715,7 @@ AddonManager.getAddonByID('zutilo@www.wesailatdawn.com',function(aAddon) {
 	for (let action in Actions) {
 		if (Actions.hasOwnProperty(action)) {
 			if (validateContext(Actions[action].context, zutiloActive)) {
-				addAction(action);
+				addAction(action, zutiloActive);
 			}
 		}
 	}
