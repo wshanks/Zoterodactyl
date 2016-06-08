@@ -411,8 +411,9 @@ Actions['zoterosaveitem'] = {
 				['default', 'Use current preference setting for attachements'],
 				['opposite', 'Use opposite of current preference setting ' +
 					'for attachments'],
-				['add', 'Add attachments regardless of preference setting'],
-				['skip', 'Skip attachments regardless of preference setting']
+				['with', 'Add attachments regardless of preference setting'],
+				['without', 'Skip attachments regardless of preference ' +
+					'setting']
 			]
 		}
 	],
@@ -433,7 +434,7 @@ Actions['zoterosaveitem'] = {
 			keys: ['z-s'],
 			openExMode: false,
 			args: {
-				'-attachments': 'add'
+				'-attachments': 'with'
 			},
 			description: 'Save item with attachments'
 		},
@@ -441,7 +442,7 @@ Actions['zoterosaveitem'] = {
 			keys: ['z-S'],
 			openExMode: false,
 			args: {
-				'-attachments': 'skip'
+				'-attachments': 'without'
 			},
 			description: 'Save item without attachments'
 		}
@@ -460,11 +461,11 @@ Actions['zoterosaveitem'] = {
 			case 'opposite':
 				ZutiloChrome.firefoxOverlay.scrapeThisPage();
 				break;
-			case 'add':
-				ZutiloChrome.firefoxOverlay.scrapeThisPage(false, true);
+			case 'with':
+				ZutiloChrome.firefoxOverlay.scrapeThisPage('with');
 				break;
-			case 'skip':
-				ZutiloChrome.firefoxOverlay.scrapeThisPage(false, false);
+			case 'without':
+				ZutiloChrome.firefoxOverlay.scrapeThisPage('without');
 				break;
 		}
 	}
@@ -640,6 +641,7 @@ function addAction(action, zutiloActive) {
 			addMappings(action);
 	}
 	
+	// Generate documentation
 	let tagStr=':'+action;
 	let specVal;
 	if ('argName' in Actions[action]) {
@@ -651,6 +653,9 @@ function addAction(action, zutiloActive) {
 	let description=['p', {}, Actions[action].description];
 	if ('extraDescription' in Actions[action]) {
 		description=description.concat(Actions[action].extraDescription());
+	}
+	if ('options' in Actions[action]) {
+
 	}
 
 	if (Actions[action].context === LOAD_CONTEXT.ZUTILO_ACTIVE) {
