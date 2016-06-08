@@ -1,3 +1,11 @@
+NOTICE OF DEPRECATION
+=====================
+Due to upcoming changes to Firefox (namely the deprecation of XUL/XPCOM and the switch to WebExtensions add-ons), [Zotero is discontinuing its full featured Firefox add-on](https://groups.google.com/forum/#!topic/zotero-dev/yy4-q_ZUA4M) (there will still be a small helper "Connector" add-on for connecting to the standalone Zotero application). Because the Zotero Firefox add-on is being discontinued, work on Zoterodactyl is also being discontinued.
+
+A few of Zoterodactyl functions might still be useful if adapted to the Zotero connector add-on. I do not plan to make these adaptations at this time. From what I can tell, from what I can tell, XUL/XPCOM deprecation will also deprecate Pentadactyl. It can not be ported to WebExtensions with the current WebExtensions API. Even if a WebExtension version of Pentadactyl could be created, WebExtensions are sandboxed from each other and require a message passing system to communicate, so Zotero would have to write an extra API layer for connector in order for Pentadactyl to be able to talk to it (which maybe they would be willing to do but would require more work).
+
+Sorry about the feature requests that were left open for a while and never addressed. They were in my backlog but I never quite got to them.
+
 Zoterodactyl
 ============
 Zoterodactyl implements a set of commands, hints, and key mappings for working with Zotero using Pentadactyl without entering passthrough mode.
